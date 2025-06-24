@@ -1,38 +1,71 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, Platform } from 'react-native';
 import React,{useState} from 'react';
 
 
-    const Texto= ({style})=>{
+/*     const Texto= ({style})=>{
       const [contenido, setContenido]=useState('Hola Mundo')
       const actualizaTexto=()=>{setContenido('State Modificado')}
       return(
         <Text style={[styles.text,style]} onPress={actualizaTexto}> {contenido} </Text>
       )
-    }
+    } */
 
-    // const Boton= ()=>{
-    //   const [cambioNuevo,setContenidoo]=useState('Presioname')
-    //   const actualizaBoton=()=>{setContenidoo('Ya me has presionado')}
-    //   return(
-    //     <Boton title={cambioNuevo} onPress={actualizaBoton}></Boton>
-    //   )
-    // }
+      const showAlert = (message) =>{
+        if (Platform.OS === 'web'){
+          window.alert(message);
+        }else{
+          Alert.alert('Alert', message)
+        }
+      }
     
 
 export default function App() {
   return (
 
     <View style={styles.container}>
+      <Text style={styles.title}>React Native Button Test</Text>
+      
+      <View style={styles.section}>
+        <Text style={styles.description}>Boton Básico</Text>
+        <Button
+          title='Presioname'
+          onPress={() => showAlert('Boton presionado')}
+        />
+      </View>
 
-      <Texto style={styles.green}></Texto>
-      <Texto style={styles.blue}></Texto>
-      <Texto style={styles.gray}></Texto>
-      {/* Quiero crear un boton que cuando lo pise se cambie el texto dentro del boton */}
-      {/*    <Button 
-      <Boton title='Pisame'> </Boton> */}
-      <StatusBar style="auto" />
+      <View style={styles.section}>
+        <Text style={styles.description}>Boton con color:</Text>
+        <Button
+          title='Boton de color'
+          color="#f194ff"
+          onPress={() => showAlert('Boton de color presionado')}
+        />
+      </View>
 
+      <View style={styles.section}>
+        <Text style={styles.description}>Boton deshabilitado:</Text>
+        <Button
+          title='Boton deshabilitado'
+          disabled
+          onPress={() => showAlert('Boton de color presionado')}
+        />
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.description}>Dos botones</Text>
+        <View style={styles.buttonRow}>
+          <Button
+            title='Izquierda'
+            onPress={() => showAlert('Boton Izquierdo presionado')}
+          />
+          <View style={styles.buttonSpacer}/>
+          <Button
+            title='Derecha'
+            onPress={() => showAlert('Boton Der echo presionado')}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -40,20 +73,36 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flexDirection: 'stretch',
+    justifyContent: 'Center',
   },
 
-  text:{
-    color: 'red',
-    fontSize: 27,
-    width: 200,
-    height: 50,
+  title:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#000000'
   },
 
-  gray:{backgroundColor: 'gray', },
-  blue:{backgroundColor: 'blue', },
-  green:{backgroundColor: 'green',}
+  section:{
+    marginBottom: 20
+  },
+
+  description:{
+    fontSize: 16,
+    marginBottom: 10,
+    color: '#333333'
+  },
+
+  buttonRow:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+
+  buttonSpacer:{
+    width:10
+  }
 });
