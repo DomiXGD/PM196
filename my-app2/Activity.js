@@ -1,50 +1,59 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, ImageBackground, ActivityIndicator } from 'react-native';
 
 export default function App() {
-    const [cargando, setCargando] = useState(false);
-    const [datos, setDatos] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    const SimularCarga = () => {
-        setCargando(true);
-        setDatos('');
+    useEffect(() => {
+        setTimeout(() => setLoading(false), 6000);
+    }, []);
 
-        setTimeout(() => {
-            setCargando(false);
-            setDatos('Datos cargados correctamente');
-        }, 3000);
+    if (loading) {
+        return (
+            <View style={styles.splash}>
+                <Text style={styles.splashtext}>Cargando...</Text>
+                <ActivityIndicator size="large" color="#ffffff" />
+            </View>
+        );
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titulo}>Activity Indicator</Text>
-            <Button title="Cargar Datos" onPress={SimularCarga} color='#007AFF'/>
-
-            {cargando && (
-                <ActivityIndicator size='large' color='#007AFF' style={styles.loader} />
-            )}
-
-            {datos !== '' && <Text>{datos}</Text>}
-
-            <StatusBar style="auto" />
-        </View>
+        <ImageBackground
+            source={{ uri: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb' }}
+            style={styles.background}
+            resizeMode="cover"
+        >
+            <View style={styles.overlay}>
+                <Text style={styles.text}>Bienvenido a la app</Text>
+            </View>
+        </ImageBackground>
     );
 }
+
 const styles = StyleSheet.create({
- container:{
-    flex:1,
-    backgroundColor: '#F5FCFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
- },
- titulo:{
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
- },
- loader:{
-    marginVertical: 20,
- }
+    splash: {
+        flex: 1,
+        backgroundColor: "#2c3e50",
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    splashtext: {
+        color: 'white',
+        fontSize: 28,
+        marginBottom: 20,
+    },
+    background: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: 20,
+        borderRadius: 10,
+        alignSelf: 'center',
+    },
+    text: {
+        color: 'white',
+        fontSize: 20,
+    },
 });
